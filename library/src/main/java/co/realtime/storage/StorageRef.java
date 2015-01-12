@@ -141,7 +141,7 @@ public class StorageRef {
 	 * @param authenticationToken
 	 * 		The authentication token.
 	 * @deprecated All private key references will be removed in the upcoming library versions. Private key is meant only for server-side use.
-	 * Use {@link co.realtime.storage.StorageRef(String applicationKey, String authenticationToken)} instead.
+	 * Use {@link StorageRef(String applicationKey, String authenticationToken)} instead.
 	 */
 	@Deprecated
 	public StorageRef(String applicationKey, String privateKey, String authenticationToken) throws StorageException{
@@ -162,7 +162,7 @@ public class StorageRef {
    * @param androidApplicationContext
    *    Your android application context.
 	 * @deprecated All private key references will be removed in the upcoming library versions. Private key is meant only for server-side use.
-	 * Use {@link co.realtime.storage.StorageRef(String applicationKey, String authenticationToken, String googleProjectId, android.content.Context androidApplicationContext)} instead.
+	 * Use {@link StorageRef(String applicationKey, String authenticationToken, String googleProjectId, android.content.Context androidApplicationContext)} instead.
    */
 	@Deprecated
 	public StorageRef(String applicationKey, String privateKey, String authenticationToken, String googleProjectId, Context androidApplicationContext) throws StorageException{
@@ -185,7 +185,7 @@ public class StorageRef {
 	 * @param url
 	 * 		The url of the storage server.
 	 * @deprecated All private key references will be removed in the upcoming library versions. Private key is meant only for server-side use.
-	 * Use {@link co.realtime.storage.StorageRef(String applicationKey, String authenticationToken, boolean isCluster, boolean isSecure, String url)} instead.
+	 * Use {@link StorageRef(String applicationKey, String authenticationToken, boolean isCluster, boolean isSecure, String url)} instead.
 	 *  
 	 */
 	@Deprecated
@@ -213,7 +213,7 @@ public class StorageRef {
      * @param androidApplicationContext
      * Your android application context.
  	 * @deprecated All private key references will be removed in the upcoming library versions. Private key is meant only for server-side use.
-	 * Use {@link co.realtime.storage.StorageRef(String applicationKey, String authenticationToken, boolean isCluster, boolean isSecure, String url, String googleProjectId, android.content.Context androidApplicationContext)} instead.
+	 * Use {@link StorageRef(String applicationKey, String authenticationToken, boolean isCluster, boolean isSecure, String url, String googleProjectId, android.content.Context androidApplicationContext)} instead.
 	 */
 	@Deprecated
 	public StorageRef(String applicationKey, String privateKey, String authenticationToken, boolean isCluster, boolean isSecure, String url, String googleProjectId, Context androidApplicationContext) throws StorageException{

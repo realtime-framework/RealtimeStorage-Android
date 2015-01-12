@@ -1,17 +1,12 @@
 package co.realtime.sample;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.LinkedHashMap;
-import java.util.Locale;
-
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,7 +17,11 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.LinkedHashMap;
+import java.util.Locale;
 
 import adapters.TodoCustomAdapter;
 import co.realtime.storage.ItemAttribute;

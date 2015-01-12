@@ -21,8 +21,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile files('libs/jackson-annotations-2.2.3.jar')
-    compile files('libs/jackson-core-2.2.1.jar')
-    compile files('libs/jackson-databind-2.2.3.jar')
-    compile files('libs/ortc-android-2.1.26.jar')
+    compile 'co.realtime:messaging-android:2.1.30'
 }
+
+apply from: 'maven-push.gradle'

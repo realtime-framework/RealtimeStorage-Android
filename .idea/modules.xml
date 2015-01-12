@@ -3,8 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RealtimeStorageLib.iml" filepath="$PROJECT_DIR$/RealtimeStorageLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StorageLib.iml" filepath="$PROJECT_DIR$/StorageLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/storage/storage.iml" filepath="$PROJECT_DIR$/storage/storage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
     </modules>
   </component>
 </project>
