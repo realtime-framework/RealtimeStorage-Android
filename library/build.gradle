@@ -23,5 +23,3 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'co.realtime:messaging-android:2.1.30'
 }
-
-apply from: 'maven-push.gradle'
