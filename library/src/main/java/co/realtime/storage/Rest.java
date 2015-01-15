@@ -65,6 +65,7 @@ class Rest {
 	URL requestUrl;
 	PostBodyBuilder bodyBuilder;
 	private LinkedHashMap<String, Object> lastStopKey;
+    private String lastStopTable;
 	private ArrayList<LinkedHashMap<String, Object>> allItems;
 
 	public OnError onError = null;
@@ -87,6 +88,7 @@ class Rest {
 		this.table = table;
 		this.requestUrl = null;
 		this.lastStopKey = null;
+        this.lastStopTable = null;
 		this.allItems = new ArrayList<LinkedHashMap<String, Object>>();
 		this.limit = (Long) bodyBuilder.getObject("limit");
 	}
@@ -116,6 +118,10 @@ class Rest {
 				}
 				if(lastStopKey!=null)
 					bodyBuilder.addObject("startKey", lastStopKey);
+
+                if(lastStopTable!=null){
+                    bodyBuilder.addObject("startTable", lastStopTable);
+                }
 				String rBody;
 				try {
 					rBody = (that.rawBody!=null?that.rawBody:that.bodyBuilder.getBody());
@@ -174,6 +180,17 @@ class Rest {
 										return;									
 									}
 								}
+
+                                if(type == RestType.LISTTABLES){
+                                    LinkedHashMap<String, Object> rData = (LinkedHashMap<String, Object>)data.get("data");
+                                    String stopTable = (String) rData.get("stopTable");
+                                    ArrayList<String> tables = (ArrayList<String>) rData.get("tables");
+                                    if(!stopTable.isEmpty() && tables.isEmpty()){
+                                        lastStopTable = stopTable;
+                                        process();
+                                        return;
+                                    }
+                                }
 
 								switch(type){
 								case LISTITEMS:
