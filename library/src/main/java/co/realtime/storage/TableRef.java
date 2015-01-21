@@ -413,11 +413,11 @@ public class TableRef {
 	 * 
 	 * TableRef tableRef = storage.table("your_table");
 	 * 
-	 * LinkedHashMap lhm = new LinkedHashMap();
+	 * LinkedHashMap&ltString,ItemAttribute> lhm = new LinkedHashMap&ltString,ItemAttribute>();
      *   // Put elements to the map
-     *   lhm.put("your_primary_key","new_primary_key_value");
-     *   lhm.put("your_secondary_key", "new_secondary_key_value");
-     *   lhm.put("itemProperty", "new_itemproperty_value");
+     *   lhm.put("your_primary_key", new ItemAttribute("new_primary_key_value"));
+     *   lhm.put("your_secondary_key", new ItemAttribute("new_secondary_key_value"));
+     *   lhm.put("itemProperty", new ItemAttribute("new_itemproperty_value"));
      *   tableRef.push(lhm,new OnItemSnapshot() {
      *       &#064;Override
      *       public void run(ItemSnapshot itemSnapshot) {
