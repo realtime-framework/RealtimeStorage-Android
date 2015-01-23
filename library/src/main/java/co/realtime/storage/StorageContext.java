@@ -70,6 +70,7 @@ class StorageContext {
 		CHANNEL_PATTERN = Pattern.compile(CHANNEL_REGEX_STRING);
 	}
 
+    co.realtime.storage.ext.OnConnected onStorageConnected = null;
 	co.realtime.storage.ext.OnReconnected onStorageReconnected = null;
 	co.realtime.storage.ext.OnReconnecting onStorageReconnecting = null;
 	
@@ -185,16 +186,18 @@ class StorageContext {
 				public void run(OrtcClient oc) {
 					//System.out.println("::connected");
 					isOffline = false;
+                    if(onStorageConnected != null){
+                        onStorageConnected.run(storage);
+                    }
 					for(String channel : toSubscribe.keySet()){
 						Boolean withNotification = toSubscribe.get(channel);
-						if(withNotification){
-							//System.out.println("=> sub with notif: " + channel);
-							ortcClient.subscribeWithNotifications(channel, true, onMessage);
-						}else{
-							//System.out.println("=> sub: " + channel);
-							ortcClient.subscribe(channel, true, onMessage);
-						}
+                        if(!withNotification){
+                            subscribeWithoutNotifications.add(channel);
+                        }
+                        ortcClient.subscribeWithNotifications(channel, true, onMessage);
 					}
+
+
 					//toSubscribe.clear();
 				}				
 			};
@@ -216,6 +219,10 @@ class StorageContext {
 				@Override
 				public void run(OrtcClient client, String channel) {
 					//System.out.println(String.format(":: subscribed to %s", channel));
+                    Boolean withNotification = toSubscribe.get(channel);
+                    if(!withNotification){
+                        ortcClient.unsubscribe(channel);
+                    }
 					toSubscribe.remove(channel);
 				}				
 			};
@@ -236,6 +243,7 @@ class StorageContext {
 						}
 					}else if(subscribeWithoutNotifications.contains(channel)){
 						//System.out.println("=> sub: " + channel);
+                        subscribeWithoutNotifications.remove(channel);
 						ortcClient.subscribe(channel, true, onMessage);
 					}
 				}				
@@ -314,6 +322,11 @@ class StorageContext {
 			}
 		}
 	}
+
+    void setOnConnected(co.realtime.storage.ext.OnConnected callback, StorageRef storage){
+        this.storage = storage;
+        this.onStorageConnected = callback;
+    }
 
 	void setOnReconnected(co.realtime.storage.ext.OnReconnected callback, StorageRef storage){
 		this.storage = storage;
@@ -409,7 +422,7 @@ class StorageContext {
 					ortcClient.subscribe(channelName, true, this.onMessage);
 				}
 			} else {
-				this.toSubscribe.put(channelName,ev.pushNotificationsEnabled);
+                this.toSubscribe.put(channelName, ev.pushNotificationsEnabled);
 			}
 		}
 	}
@@ -433,29 +446,9 @@ class StorageContext {
 		}
 	}
 
-	public void disablePushNotifications(String table){
-		String channelName = String.format("rtcs_%s", table);     
-		unsubscribeAllNotifications(channelName);
-	}
-
-	public void disablePushNotifications(String table, String primaryKey){
-		String channelName = String.format("rtcs_%s:%s", table,primaryKey);     
-		unsubscribeAllNotifications(channelName);
-	}
-
-	public void disablePushNotifications(String table, String primaryKey, String secondaryKey){
-		String channelName = String.format("rtcs_%s:%s_%s", table,primaryKey,secondaryKey);     
-		unsubscribeAllNotifications(channelName);
-	}
-
 	public void disablePushNotificationsForChannels(ArrayList<String> channels) {
 		for(String channelName : channels){
 			unsubscribeAllNotifications(channelName);
 		}
-	}
-
-	public void disablePushNotificationsForChannels(String tableName) {
-		ArrayList<String> channels = evCollection.getChannelNames(tableName, true);
-		disablePushNotificationsForChannels(channels);
 	}
 }

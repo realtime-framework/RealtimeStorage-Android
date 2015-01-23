@@ -5,6 +5,7 @@ import android.content.Context;
 import co.realtime.storage.Rest.RestType;
 import co.realtime.storage.entities.Heartbeat;
 import co.realtime.storage.ext.OnBooleanResponse;
+import co.realtime.storage.ext.OnConnected;
 import co.realtime.storage.ext.OnError;
 import co.realtime.storage.ext.OnHeartbeat;
 import co.realtime.storage.ext.OnReconnected;
@@ -290,7 +291,17 @@ public class StorageRef {
 	public StorageRef(String applicationKey, String authenticationToken, boolean isCluster, boolean isSecure, String url, Heartbeat heartbeat, String googleProjectId, Context androidApplicationContext) throws StorageException {
 		context = new StorageContext(this, applicationKey, null, authenticationToken, isCluster, isSecure, url, heartbeat, googleProjectId, androidApplicationContext);
   }
-	
+
+    /**
+     * Event fired when a connection is established
+     *
+     * @return Current storage reference
+     */
+    public StorageRef onConnected(OnConnected onConnected){
+        context.setOnConnected(onConnected,this);
+        return this;
+    }
+
 	/**
 	 * Event fired when a connection is reestablished after being closed unexpectedly
 	 * 

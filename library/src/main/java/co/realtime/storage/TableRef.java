@@ -1593,7 +1593,6 @@ public class TableRef {
    */
   public TableRef disablePushNotifications() {
     pushNotificationsEnabled = false;
-    context.disablePushNotificationsForChannels(this.name);
     return this;
   }
 	
