@@ -189,16 +189,16 @@ class StorageContext {
                     if(onStorageConnected != null){
                         onStorageConnected.run(storage);
                     }
-					for(String channel : toSubscribe.keySet()){
-						Boolean withNotification = toSubscribe.get(channel);
-                        if(!withNotification){
-                            subscribeWithoutNotifications.add(channel);
+                    for(String channel : toSubscribe.keySet()){
+                        Boolean withNotification = toSubscribe.get(channel);
+                        if(withNotification){
+                            //System.out.println("=> sub with notif: " + channel);
+                            ortcClient.subscribeWithNotifications(channel, true, onMessage);
+                        }else{
+                            //System.out.println("=> sub: " + channel);
+                            ortcClient.subscribe(channel, true, onMessage);
                         }
-                        ortcClient.subscribeWithNotifications(channel, true, onMessage);
-					}
-
-
-					//toSubscribe.clear();
+                    }
 				}				
 			};
 
@@ -219,10 +219,6 @@ class StorageContext {
 				@Override
 				public void run(OrtcClient client, String channel) {
 					//System.out.println(String.format(":: subscribed to %s", channel));
-                    Boolean withNotification = toSubscribe.get(channel);
-                    if(!withNotification){
-                        ortcClient.unsubscribe(channel);
-                    }
 					toSubscribe.remove(channel);
 				}				
 			};
@@ -243,7 +239,6 @@ class StorageContext {
 						}
 					}else if(subscribeWithoutNotifications.contains(channel)){
 						//System.out.println("=> sub: " + channel);
-                        subscribeWithoutNotifications.remove(channel);
 						ortcClient.subscribe(channel, true, onMessage);
 					}
 				}				
@@ -451,4 +446,9 @@ class StorageContext {
 			unsubscribeAllNotifications(channelName);
 		}
 	}
+
+    public void disablePushNotificationsForChannels(String tableName) {
+        ArrayList<String> channels = evCollection.getChannelNames(tableName, true);
+        disablePushNotificationsForChannels(channels);
+    }
 }

@@ -1509,7 +1509,7 @@ public class TableRef {
 	/**
 	 * Remove an event handler.
 	 * 
-	 * * <pre>
+	 *  <pre>
 	 * 
 	 * StorageRef storage = new StorageRef("your_app_key", "your_token");
 	 * 
@@ -1564,8 +1564,30 @@ public class TableRef {
 	
 	/**
 	 * Retrieves the number of the table subscriptions and their respective connection metadata (limited to the first 100 subscriptions). Each subscriber is notified of changes made to the table.
-	 * 
-	 * @param onPresence
+     *
+     * <pre>
+     *
+     *      StorageRef storageRef = new StorageRef("your_app_key", "your_token");
+     *
+     *      TableRef tableRef = storageRef.table("your_table");
+     *
+     *      tableRef.presence(new OnPresence() {
+     *              &#064;Override
+     *              public void run(Presence presence) {
+     *                  if (presence != null) {
+     *                      Log.d("TableRef", "Presence Subscriptions: " + String.valueOf(presence.getSubscriptions()));
+     *                  }
+     *              }
+     *      },new OnError() {
+     *              &#064;Override
+     *              public void run(Integer code, String errorMessage) {
+     *                  Log.e("TableRef", "Error : " + errorMessage);
+     *              }
+     *      });
+     *
+     * </pre>
+     *
+     * @param onPresence
 	 * 		Response from the server when the request was completed successfully.
 	 * @param onError
 	 * 		Response if client side validation failed or if an error was returned from the server.
@@ -1578,6 +1600,36 @@ public class TableRef {
 	
 	/**
 	 * Enables mobile push notifications for current table reference.
+     *
+     * <pre>
+     *
+     * try {
+     *   StorageRef storageRef = new StorageRef("your_app_key", "your_token", "your_google_project_number",
+     *                                             getApplicationContext());
+     *
+     *   TableRef tableRef = storageRef.table("your_table");
+     *
+     *   // Add an update listener
+     *   tableRef.enablePushNotifications().on(StorageRef.StorageEvent.UPDATE, new ItemAttribute("your_primary_key_value"),
+     *      new OnItemSnapshot() {
+     *      &#064;Override
+     *      public void run(ItemSnapshot itemSnapshot) {
+     *          if (itemSnapshot != null) {
+     *             Log.d("TableRef", "Item : " + itemSnapshot.val());
+     *          }
+     *       }
+     *    }, new OnError() {
+     *       &#064;Override
+     *       public void run(Integer integer, String errorMessage) {
+     *          Log.e("TableRef", "Error adding an update event listener: " + errorMessage);
+     *       }
+     *    });
+     *
+     *  } catch (StorageException e) {
+     *      e.printStackTrace();
+     *  }
+     *
+     * </pre>
 	 * 
 	 * @return Current table reference
 	 */
@@ -1585,14 +1637,60 @@ public class TableRef {
 	  pushNotificationsEnabled = true;
 	  return this;
 	}
-	
-   /**
-   * Disables mobile push notifications for current table reference.
-   * 
-   * @return Current table reference
-   */
+
+    /**
+     * Disables mobile push notifications for current table reference.
+     *
+     * <pre>
+     *
+     * try {
+     *   StorageRef storageRef = new StorageRef("your_app_key", "your_token", "your_google_project_number",
+     *                                            getApplicationContext());
+     *
+     *   final TableRef tableRef = storageRef.table("your_table");
+     *   //Define handler function
+     *   final OnItemSnapshot itemSnapshot = new OnItemSnapshot() {
+     *
+     *   &#064;Override
+     *   public void run(ItemSnapshot itemSnapshot) {
+     *       if (itemSnapshot != null) {
+     *             Log.d("TableRef", "Item : " + itemSnapshot.val());
+     *        }
+     *      }
+     *   };
+     *
+     *
+     *   tableRef.enablePushNotifications().on(StorageRef.StorageEvent.UPDATE, new ItemAttribute("your_primary_key_value),
+     *      itemSnapshot,new OnError() {
+     *       &#064;Override
+     *       public void run(Integer integer, String errorMessage) {
+     *          Log.e("TableRef", "Error adding an update event listener: " + errorMessage);
+     *       }
+     *    });
+     *
+     *
+     *    Handler handler = new Handler();
+     *
+     *    final Runnable r = new Runnable() {
+     *       public void run() {
+     *          tableRef.disablePushNotifications();
+     *       }
+     *    };
+     *
+     *    //Disable notifications after 5 seconds
+     *    handler.postDelayed(r, 5000);
+     *
+     *    } catch (StorageException e) {
+     *       e.printStackTrace();
+     *    }
+     *
+     * </pre>
+     *
+     * @return Current table reference
+     */
   public TableRef disablePushNotifications() {
     pushNotificationsEnabled = false;
+    context.disablePushNotificationsForChannels(this.name);
     return this;
   }
 	
