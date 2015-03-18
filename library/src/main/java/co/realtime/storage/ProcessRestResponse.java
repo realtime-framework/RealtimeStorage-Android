@@ -225,10 +225,11 @@ class ProcessRestResponse {
 		LinkedHashMap<String, ItemAttribute> ret = new LinkedHashMap<String, ItemAttribute>();
 		for (Entry<String, Object> entry : map.entrySet()){
 			Object value = entry.getValue();
-			if(value instanceof String)
-				ret.put(entry.getKey(), new ItemAttribute((String)value));
-			if(value instanceof Number)
-				ret.put(entry.getKey(), new ItemAttribute((Number)value));
+            if(value instanceof Number)
+                ret.put(entry.getKey(), new ItemAttribute((Number)value));
+            else{
+                ret.put(entry.getKey(), new ItemAttribute(value.toString()));
+            }
 		}
 		return ret;
 	}
