@@ -1,5 +1,10 @@
 package co.realtime.storage;
 
+import com.fasterxml.jackson.databind.ser.impl.JsonSerializerMap;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -227,8 +232,11 @@ class ProcessRestResponse {
 			Object value = entry.getValue();
             if(value instanceof Number)
                 ret.put(entry.getKey(), new ItemAttribute((Number)value));
-            else{
-                ret.put(entry.getKey(), new ItemAttribute(value.toString()));
+            if(value instanceof String){
+                ret.put(entry.getKey(), new ItemAttribute((String)value));
+            }
+            if(value instanceof LinkedHashMap){
+                ret.put(entry.getKey(), new ItemAttribute(new Gson().toJson(value)));
             }
 		}
 		return ret;
