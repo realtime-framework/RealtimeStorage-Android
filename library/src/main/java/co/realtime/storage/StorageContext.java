@@ -377,7 +377,7 @@ class StorageContext {
 				Ortc.presence(ortcUrl, isCluster, applicationKey, authenticationToken, channel, onOrtcPresence);
 			}
 		} 
-		catch (OrtcNotConnectedException e) {
+		catch (Exception e) {
 			onError.run(1008, e.getMessage());	
 		}
 	}
