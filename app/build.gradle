@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.0"
 
     defaultConfig {
         applicationId "co.realtime.sample"
@@ -25,7 +25,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:21.0.2'
-    compile 'com.android.support:support-v13:21.0.2'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:support-v13:23.4.0'
     compile project(':library')
 }
